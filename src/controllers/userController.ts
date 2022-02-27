@@ -9,4 +9,14 @@ router.get('/', async (req: Request, res: Response) => {
   res.json({ users });
 });
 
+router.post('/', async (req: Request, res: Response) => {
+  const { name, email } = req.body;
+  const user = await prisma.user.upsert({
+    where: { email: 'jiro@example.com' },
+    update: {},
+    create: { name, email },
+  });
+  res.json({ user });
+});
+
 export default router;
