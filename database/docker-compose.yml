@@ -3,9 +3,13 @@ services:
   db:
     build: .
     env_file: .env
+    volumes:
+      - db-data:/var/lib/postgresql/data
     ports:
       - 5433:5432
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
+volumes:
+  db-data:
