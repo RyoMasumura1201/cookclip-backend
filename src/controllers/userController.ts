@@ -12,7 +12,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
   const { name, email } = req.body;
   const user = await prisma.user.upsert({
-    where: { email: 'jiro@example.com' },
+    where: { email },
     update: {},
     create: { name, email },
   });
