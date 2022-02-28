@@ -21,6 +21,7 @@ model Bookmark {
   id    Int     @id @default(autoincrement())
   title String
   startAt Decimal
+  movieId String
   user User @relation(fields: [userId], references: [id])
   userId Int
 }
