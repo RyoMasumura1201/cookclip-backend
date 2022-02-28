@@ -1,5 +1,6 @@
 import express from 'express';
 import userController from './controllers/userController';
+import bookmarkController from './controllers/bookmarkController';
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userController);
+app.use('/bookmarks', bookmarkController);
 
 export default app;
