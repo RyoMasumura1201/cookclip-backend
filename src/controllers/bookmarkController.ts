@@ -9,4 +9,21 @@ router.get('/', async (req: Request, res: Response) => {
   res.json({ bookmarks });
 });
 
+router.post('/', async (req: Request, res: Response) => {
+  const { title, startAt, movieId, email } = req.body;
+
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (user) {
+    const bookmark = await prisma.bookmark.create({
+      data: {
+        title: title,
+        startAt: startAt,
+        movieId: movieId,
+        userId: user.id,
+      },
+    });
+    res.json({ bookmark });
+  }
+});
+
 export default router;

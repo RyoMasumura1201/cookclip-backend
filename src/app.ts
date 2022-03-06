@@ -4,7 +4,7 @@ import bookmarkController from './controllers/bookmarkController';
 
 const app = express();
 
-app.use('/', express.json());
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
