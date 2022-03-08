@@ -11,6 +11,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
   const { title, startAt, movieId, email } = req.body;
+  console.log(req.body);
 
   const user = await prisma.user.findUnique({ where: { email } });
   if (user) {
