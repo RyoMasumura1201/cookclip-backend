@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
   const bookmarks = await prisma.bookmark.findMany();
-  res.json({ bookmarks });
+  res.json(bookmarks);
 });
 
 router.post('/', async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ router.post('/', async (req: Request, res: Response) => {
         userId: user.id,
       },
     });
-    res.json({ bookmark });
+    res.json(bookmark);
   }
 });
 

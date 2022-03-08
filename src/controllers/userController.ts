@@ -11,7 +11,21 @@ router.post('/', async (req: Request, res: Response) => {
     update: {},
     create: { name, email },
   });
-  res.json({ user });
+  res.json(user);
+});
+
+router.get('/:id/bookmarks', async (req, res) => {
+  const { id } = req.params;
+
+  const bookmarks = await prisma.user
+    .findUnique({
+      where: {
+        id: Number(id),
+      },
+    })
+    .bookmarks();
+
+  res.json(bookmarks);
 });
 
 export default router;
