@@ -20,7 +20,7 @@ router.get('/:id/bookmarks', async (req, res) => {
   const bookmarks = await prisma.user
     .findUnique({
       where: {
-        id: Number(id),
+        id: String(id),
       },
     })
     .bookmarks();

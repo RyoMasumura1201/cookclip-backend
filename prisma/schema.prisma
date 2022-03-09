@@ -11,18 +11,18 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
+  id    String  @id @default(uuid())
   name  String
   email String  @unique
   bookmarks Bookmark[]
 }
 
 model Bookmark {
-  id    Int     @id @default(autoincrement())
+  id    String     @id @default(uuid())
   title String
   startAt Decimal
-  movieId String
+  videoId String
   user User @relation(fields: [userId], references: [id])
-  userId Int
+  userId String
   createdAt DateTime @default(now())
 }

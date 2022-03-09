@@ -10,7 +10,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.post('/', async (req: Request, res: Response) => {
-  const { title, startAt, movieId, email } = req.body;
+  const { title, startAt, videoId, email } = req.body;
   console.log(req.body);
 
   const user = await prisma.user.findUnique({ where: { email } });
@@ -19,7 +19,7 @@ router.post('/', async (req: Request, res: Response) => {
       data: {
         title: title,
         startAt: startAt,
-        movieId: movieId,
+        videoId: videoId,
         userId: user.id,
       },
     });
