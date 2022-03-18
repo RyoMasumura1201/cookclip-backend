@@ -9,6 +9,11 @@ router.get('/', async (req: Request, res: Response) => {
   res.json(bookmarks);
 });
 
+router.get('/:userId', async (req: Request, res: Response) => {
+  const bookmarks = await prisma.bookmark.findMany({ where: { userId: req.params.userId } });
+  res.json(bookmarks);
+});
+
 router.post('/', async (req: Request, res: Response) => {
   const { title, startAt, videoId, email } = req.body;
   console.log(req.body);
