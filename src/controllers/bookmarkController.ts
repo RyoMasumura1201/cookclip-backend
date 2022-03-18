@@ -5,12 +5,10 @@ const prisma = new PrismaClient();
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
-  const bookmarks = await prisma.bookmark.findMany();
-  res.json(bookmarks);
-});
+  const userId = req.query.userId?.toString();
+  const videoId = req.query.videoId?.toString();
 
-router.get('/:userId', async (req: Request, res: Response) => {
-  const bookmarks = await prisma.bookmark.findMany({ where: { userId: req.params.userId } });
+  const bookmarks = await prisma.bookmark.findMany({ where: { userId: userId, videoId: videoId } });
   res.json(bookmarks);
 });
 
