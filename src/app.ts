@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import userController from './controllers/userController';
 import bookmarkController from './controllers/bookmarkController';
+import videoController from './controllers/videoController';
 
 const app = express();
 require('dotenv').config();
@@ -22,5 +23,6 @@ app.get('/', (req, res) => {
 
 app.use('/users', userController);
 app.use('/bookmarks', bookmarkController);
+app.use('/videos', videoController);
 
 export default app;

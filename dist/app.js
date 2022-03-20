@@ -7,6 +7,7 @@ var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
 var userController_1 = __importDefault(require("./controllers/userController"));
 var bookmarkController_1 = __importDefault(require("./controllers/bookmarkController"));
+var videoController_1 = __importDefault(require("./controllers/videoController"));
 var app = (0, express_1["default"])();
 require('dotenv').config();
 app.use(express_1["default"].json());
@@ -21,5 +22,6 @@ app.get('/', function (req, res) {
 });
 app.use('/users', userController_1["default"]);
 app.use('/bookmarks', bookmarkController_1["default"]);
+app.use('/videos', videoController_1["default"]);
 exports["default"] = app;
 //# sourceMappingURL=app.js.map
