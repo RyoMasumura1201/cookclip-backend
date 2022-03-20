@@ -20,9 +20,9 @@ router.post('/', async (req: Request, res: Response) => {
   if (user) {
     const bookmark = await prisma.bookmark.create({
       data: {
-        title: title,
-        startAt: startAt,
-        videoId: videoId,
+        title,
+        startAt,
+        videoId,
         userId: user.id,
       },
     });
