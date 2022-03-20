@@ -26,3 +26,10 @@ model Bookmark {
   userId String
   createdAt DateTime @default(now())
 }
+
+model Video {
+  id String      @id @default(uuid())
+  title String
+  description String
+  videoId String
+}
