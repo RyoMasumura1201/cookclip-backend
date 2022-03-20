@@ -1,3 +1,3 @@
-web: yarn start
+web: yarn run start
 
 release: npx prisma migrate deploy
