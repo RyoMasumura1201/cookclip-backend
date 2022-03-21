@@ -50,7 +50,8 @@ const main = async () => {
     process.env.CHANNEL_ID_OF_RYUJI +
     '&key=' +
     process.env.YOUTUBE_API_KEY +
-    '&maxResults=50';
+    '&maxResults=50' +
+    '&type=video';
 
   axios
     .get(url)
