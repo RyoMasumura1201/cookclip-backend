@@ -41,6 +41,10 @@ const main = async () => {
   //     },
   //   },
   // );
+
+  const existVideos = await prisma.video.findMany();
+  const existVideoIdList = existVideos.map((video) => video.videoId);
+
   const url =
     'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' +
     process.env.CHANNEL_ID_OF_RYUJI +
@@ -57,6 +61,9 @@ const main = async () => {
 
       const videoListForPrisma = videoList
         .filter((video) => video.id.videoId)
+        .filter((video) => {
+          return !existVideoIdList.includes(video.id.videoId);
+        })
         .map((video) => {
           return {
             videoId: video.id.videoId,
@@ -65,9 +72,14 @@ const main = async () => {
           };
         });
 
+      console.log('videoListForPrisma');
+      console.log(videoListForPrisma);
+
       const result = await prisma.video.createMany({
         data: videoListForPrisma,
       });
+      console.log('result');
+      console.log(result);
     })
     .catch((e) => {
       console.log(e);
