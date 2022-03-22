@@ -1,10 +1,10 @@
-import { PrismaClient } from '@prisma/client';
-import { Router, Request, Response } from 'express';
+import { PrismaClient } from "@prisma/client";
+import { Router, Request, Response } from "express";
 
 const prisma = new PrismaClient();
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const userId = req.query.userId?.toString();
   const videoId = req.query.videoId?.toString();
 
@@ -12,7 +12,7 @@ router.get('/', async (req: Request, res: Response) => {
   res.json(bookmarks);
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   const { title, startAt, videoId, email } = req.body;
   console.log(req.body);
 

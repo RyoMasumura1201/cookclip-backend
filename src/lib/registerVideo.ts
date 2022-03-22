@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import axios, { AxiosResponse } from 'axios';
+import { PrismaClient } from "@prisma/client";
+import axios, { AxiosResponse } from "axios";
 const prisma = new PrismaClient();
 
 type YoutubeMovie = {
@@ -40,18 +40,18 @@ const main = async () => {
   const existVideos = await prisma.video.findMany();
   const existVideoIdList = existVideos.map((video) => video.videoId);
 
-  const url = 'https://www.googleapis.com/youtube/v3/search';
+  const url = "https://www.googleapis.com/youtube/v3/search";
   const videoListForPrisma: videoForPrisma[] = [];
-  let pageToken = '';
+  let pageToken = "";
   while (true) {
     try {
       const res: AxiosResponse<SearchMovieResult> = await axios.get(url, {
         params: {
-          part: 'snippet',
+          part: "snippet",
           channelId: process.env.CHANNEL_ID_OF_RYUJI,
           key: process.env.YOUTUBE_API_KEY,
           maxResults: 50,
-          type: 'video',
+          type: "video",
           pageToken: pageToken,
         },
       });
@@ -90,7 +90,7 @@ const main = async () => {
   const result = await prisma.video.createMany({
     data: uniqueVideos,
   });
-  console.log('result');
+  console.log("result");
   console.log(result);
 };
 
