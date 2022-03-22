@@ -1,28 +1,15 @@
-import { PrismaClient, Video } from '@prisma/client';
-import { Router, Request, Response } from 'express';
+import { PrismaClient, Video, Prisma } from "@prisma/client";
+import { Router, Request, Response } from "express";
 
 const prisma = new PrismaClient();
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
-  const videos = await prisma.video.findMany();
-  res.json(videos);
-});
-
-router.post('/', async (req: Request, res: Response) => {
-  const videoList: Video[] = req.body;
-  console.log(videoList);
-
-  const notExistingVideoList = videoList.filter(
-    (video) => !prisma.video.findUnique({ where: { videoId: video.videoId } }),
+router.get("/", async (req: Request, res: Response) => {
+  const searchText = "%" + req.query.searchText?.toString() + "%";
+  const videos = await prisma.$queryRaw<Video[]>(
+    Prisma.sql`SELECT * FROM "Video" WHERE title LIKE ${searchText}`,
   );
-
-  console.log(notExistingVideoList);
-
-  const result = await prisma.video.createMany({
-    data: notExistingVideoList,
-  });
-  res.json(result);
+  res.json(videos);
 });
 
 export default router;
