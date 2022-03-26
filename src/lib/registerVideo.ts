@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import axios, { AxiosResponse } from "axios";
+import dayjs from "dayjs";
 const prisma = new PrismaClient();
 
 type YoutubeMovie = {
@@ -43,42 +44,53 @@ const main = async () => {
   const url = "https://www.googleapis.com/youtube/v3/search";
   const videoListForPrisma: videoForPrisma[] = [];
   let pageToken = "";
+  let publishedAfterDate = dayjs(new Date(2018, 11, 1));
+  const now = dayjs();
   while (true) {
-    try {
-      const res: AxiosResponse<SearchMovieResult> = await axios.get(url, {
-        params: {
-          part: "snippet",
-          channelId: process.env.CHANNEL_ID_OF_RYUJI,
-          key: process.env.YOUTUBE_API_KEY,
-          maxResults: 50,
-          type: "video",
-          pageToken: pageToken,
-        },
-      });
+    const publishedBeforeDate = publishedAfterDate.add(1, "month");
 
-      const videoList = res.data.items;
-      videoList
-        .filter((video) => {
-          return !existVideoIdList.includes(video.id.videoId);
-        })
-        .map((video) => {
-          return {
-            videoId: video.id.videoId,
-            title: video.snippet.title,
-            description: video.snippet.description,
-          };
-        })
-        .forEach((video) => {
-          videoListForPrisma.push(video);
+    while (true) {
+      try {
+        const res: AxiosResponse<SearchMovieResult> = await axios.get(url, {
+          params: {
+            part: "snippet",
+            channelId: process.env.CHANNEL_ID_OF_RYUJI,
+            key: process.env.YOUTUBE_API_KEY,
+            maxResults: 50,
+            type: "video",
+            pageToken: pageToken,
+            publishedAfter: publishedAfterDate.format(),
+            publishedBefore: publishedBeforeDate.format(),
+          },
         });
-      console.log(videoListForPrisma.length);
-      console.log(res.data.nextPageToken);
-      pageToken = res.data.nextPageToken;
-      if (!pageToken) {
+
+        const videoList = res.data.items;
+        videoList
+          .filter((video) => {
+            return !existVideoIdList.includes(video.id.videoId);
+          })
+          .map((video) => {
+            return {
+              videoId: video.id.videoId,
+              title: video.snippet.title,
+              description: video.snippet.description,
+            };
+          })
+          .forEach((video) => {
+            videoListForPrisma.push(video);
+          });
+        console.log(videoListForPrisma.length);
+        pageToken = res.data.nextPageToken;
+        if (!pageToken) {
+          break;
+        }
+      } catch (e) {
+        console.log(e);
         break;
       }
-    } catch (e) {
-      console.log(e);
+    }
+    publishedAfterDate = publishedBeforeDate;
+    if (now.diff(publishedAfterDate, "month") < 1) {
       break;
     }
   }
