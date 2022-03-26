@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
   const searchText = "%" + req.query.searchText?.toString() + "%";
   const videos = await prisma.$queryRaw<Video[]>(
-    Prisma.sql`SELECT * FROM "Video" WHERE title LIKE ${searchText}`,
+    Prisma.sql`SELECT * FROM "Video" WHERE title LIKE ${searchText} limit 20`,
   );
   res.json(videos);
 });
